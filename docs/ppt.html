@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Booking Assistant - Project Presentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+        
+        .slide {
+            min-height: 100vh;
+            padding: 60px 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-bottom: 2px solid #0f3460;
+            position: relative;
+        }
+        
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #e94560, #0f3460);
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 30px;
+            background: linear-gradient(90deg, #e94560, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            color: #e94560;
+            border-left: 4px solid #e94560;
+            padding-left: 20px;
+        }
+        
+        h3 {
+            font-size: 1.8rem;
+            margin: 25px 0 15px 0;
+            color: #ff6b6b;
+        }
+        
+        p, li {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            color: #b8b8b8;
+        }
+        
+        ul {
+            margin-left: 40px;
+            margin-bottom: 20px;
+        }
+        
+        li {
+            margin-bottom: 12px;
+        }
+        
+        .highlight {
+            color: #e94560;
+            font-weight: bold;
+        }
+        
+        .center {
+            text-align: center;
+        }
+        
+        .title-slide {
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .title-slide h1 {
+            font-size: 4.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .title-slide .subtitle {
+            font-size: 2rem;
+            color: #b8b8b8;
+            margin-bottom: 40px;
+        }
+        
+        .title-slide .author {
+            font-size: 1.5rem;
+            color: #e94560;
+            margin-top: 60px;
+        }
+        
+        .emoji {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            margin-top: 30px;
+        }
+        
+        .card {
+            background: rgba(15, 52, 96, 0.5);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid #0f3460;
+            transition: transform 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card h3 {
+            margin-top: 0;
+        }
+        
+        .architecture-box {
+            background: rgba(15, 52, 96, 0.7);
+            border-radius: 15px;
+            padding: 40px;
+            margin: 30px 0;
+            border: 2px solid #e94560;
+        }
+        
+        .flow-diagram {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            margin: 40px 0;
+        }
+        
+        .flow-box {
+            background: linear-gradient(135deg, #0f3460, #1a1a2e);
+            border: 2px solid #e94560;
+            border-radius: 10px;
+            padding: 20px 30px;
+            margin: 10px;
+            text-align: center;
+            min-width: 150px;
+        }
+        
+        .flow-arrow {
+            font-size: 2rem;
+            color: #e94560;
+        }
+        
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .tech-badge {
+            background: linear-gradient(135deg, #e94560, #ff6b6b);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 1rem;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .screenshot-placeholder {
+            background: rgba(15, 52, 96, 0.5);
+            border: 2px dashed #e94560;
+            border-radius: 15px;
+            padding: 60px;
+            text-align: center;
+            margin: 20px 0;
+            color: #b8b8b8;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(15, 52, 96, 0.5);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        th, td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid #0f3460;
+        }
+        
+        th {
+            background: #e94560;
+            color: white;
+            font-weight: bold;
+        }
+        
+        tr:hover {
+            background: rgba(233, 69, 96, 0.1);
+        }
+        
+        .status-done {
+            color: #4ade80;
+            font-weight: bold;
+        }
+        
+        .slide-number {
+            position: absolute;
+            bottom: 20px;
+            right: 40px;
+            font-size: 1rem;
+            color: #0f3460;
+        }
+        
+        .nav-dots {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 100;
+        }
+        
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #0f3460;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .nav-dot:hover, .nav-dot.active {
+            background: #e94560;
+            transform: scale(1.2);
+        }
+        
+        .code-block {
+            background: #0d1117;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'Consolas', monospace;
+            font-size: 1rem;
+            overflow-x: auto;
+            border-left: 4px solid #e94560;
+        }
+        
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+        
+        @media (max-width: 768px) {
+            .slide {
+                padding: 40px 30px;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+            
+            .grid, .two-col {
+                grid-template-columns: 1fr;
+            }
+            
+            .title-slide h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Dots -->
+    <div class="nav-dots">
+        <div class="nav-dot active" onclick="scrollToSlide(0)"></div>
+        <div class="nav-dot" onclick="scrollToSlide(1)"></div>
+        <div class="nav-dot" onclick="scrollToSlide(2)"></div>
+        <div class="nav-dot" onclick="scrollToSlide(3)"></div>
+        <div class="nav-dot" onclick="scrollToSlide(4)"></div>
+        <div class="nav-dot" onclick="scrollToSlide(5)"></div>
+        <div class="nav-dot" onclick="scrollToSlide(6)"></div>
+        <div class="nav-dot" onclick="scrollToSlide(7)"></div>
+        <div class="nav-dot" onclick="scrollToSlide(8)"></div>
+        <div class="nav-dot" onclick="scrollToSlide(9)"></div>
+        <div class="nav-dot" onclick="scrollToSlide(10)"></div>
+    </div>
+
+    <!-- Slide 1: Title -->
+    <section class="slide title-slide" id="slide-0">
+        <div class="emoji">🏥</div>
+        <h1>AI Booking Assistant</h1>
+        <p class="subtitle">HealthCare Plus - Intelligent Appointment Scheduling</p>
+        <p class="author">NeoStats AI Engineer Use Case</p>
+        <p style="margin-top: 20px; color: #666;">January 2026</p>
+        <span class="slide-number">1 / 11</span>
+    </section>
+
+    <!-- Slide 2: Problem Statement -->
+    <section class="slide" id="slide-1">
+        <h2>📋 Problem Statement</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>🎯 Objective</h3>
+                <ul>
+                    <li>Build an AI-driven Booking Assistant</li>
+                    <li>Chat-based application with natural language</li>
+                    <li>Support RAG for document Q&A</li>
+                    <li>Multi-turn conversation for bookings</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>🏥 Domain: Medical Clinic</h3>
+                <ul>
+                    <li>General Consultations</li>
+                    <li>Specialist Appointments</li>
+                    <li>Follow-up Visits</li>
+                    <li>Health Checkups</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>✅ Core Features</h3>
+                <ul>
+                    <li>RAG with PDF uploads</li>
+                    <li>Intelligent booking flow</li>
+                    <li>Email confirmations</li>
+                    <li>Admin dashboard</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>🚀 Deployment</h3>
+                <ul>
+                    <li>Streamlit Cloud</li>
+                    <li>Public accessible URL</li>
+                    <li>GitHub repository</li>
+                    <li>Complete documentation</li>
+                </ul>
+            </div>
+        </div>
+        <span class="slide-number">2 / 11</span>
+    </section>
+
+    <!-- Slide 3: Solution Overview -->
+    <section class="slide" id="slide-2">
+        <h2>💡 Solution Overview</h2>
+        
+        <div class="architecture-box">
+            <h3 class="center">Technology Stack</h3>
+            <div class="tech-stack" style="justify-content: center;">
+                <span class="tech-badge">Streamlit</span>
+                <span class="tech-badge">OpenAI GPT-4o-mini</span>
+                <span class="tech-badge">LangChain</span>
+                <span class="tech-badge">FAISS</span>
+                <span class="tech-badge">SQLite</span>
+                <span class="tech-badge">SMTP Email</span>
+                <span class="tech-badge">Python 3.11+</span>
+            </div>
+        </div>
+
+        <div class="two-col">
+            <div>
+                <h3>🔧 Key Components</h3>
+                <ul>
+                    <li><span class="highlight">Chat Interface</span> - Natural conversation UI</li>
+                    <li><span class="highlight">RAG Pipeline</span> - PDF processing & retrieval</li>
+                    <li><span class="highlight">Booking Flow</span> - Intelligent slot filling</li>
+                    <li><span class="highlight">Tools Layer</span> - DB & Email operations</li>
+                </ul>
+            </div>
+            <div>
+                <h3>📊 Design Principles</h3>
+                <ul>
+                    <li>Modular architecture</li>
+                    <li>Separation of concerns</li>
+                    <li>Graceful error handling</li>
+                    <li>User-friendly responses</li>
+                </ul>
+            </div>
+        </div>
+        <span class="slide-number">3 / 11</span>
+    </section>
+
+    <!-- Slide 4: Architecture Diagram -->
+    <section class="slide" id="slide-3">
+        <h2>🏗️ System Architecture</h2>
+        
+        <div class="architecture-box">
+            <div class="flow-diagram">
+                <div class="flow-box">
+                    <strong>👤 User</strong><br>
+                    <small>Chat Input</small>
+                </div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-box">
+                    <strong>🖥️ Streamlit UI</strong><br>
+                    <small>main.py</small>
+                </div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-box">
+                    <strong>🧠 Intent Detection</strong><br>
+                    <small>chat_logic.py</small>
+                </div>
+            </div>
+            
+            <div class="flow-diagram">
+                <div class="flow-box">
+                    <strong>📄 RAG Pipeline</strong><br>
+                    <small>rag_pipeline.py</small>
+                </div>
+                <span class="flow-arrow">↔</span>
+                <div class="flow-box">
+                    <strong>🤖 OpenAI API</strong><br>
+                    <small>GPT-4o-mini</small>
+                </div>
+                <span class="flow-arrow">↔</span>
+                <div class="flow-box">
+                    <strong>📅 Booking Flow</strong><br>
+                    <small>booking_flow.py</small>
+                </div>
+            </div>
+            
+            <div class="flow-diagram">
+                <div class="flow-box">
+                    <strong>🗄️ SQLite DB</strong><br>
+                    <small>database.py</small>
+                </div>
+                <span class="flow-arrow">↔</span>
+                <div class="flow-box">
+                    <strong>🔧 Tools</strong><br>
+                    <small>tools.py</small>
+                </div>
+                <span class="flow-arrow">↔</span>
+                <div class="flow-box">
+                    <strong>📧 SMTP Email</strong><br>
+                    <small>Gmail</small>
+                </div>
+            </div>
+        </div>
+        <span class="slide-number">4 / 11</span>
+    </section>
+
+    <!-- Slide 5: Booking Flow -->
+    <section class="slide" id="slide-4">
+        <h2>📅 Booking Flow Design</h2>
+        
+        <div class="two-col">
+            <div>
+                <h3>Multi-Turn Conversation</h3>
+                <div class="flow-diagram" style="flex-direction: column; align-items: flex-start;">
+                    <div class="flow-box" style="width: 100%;">1️⃣ Detect Booking Intent</div>
+                    <span class="flow-arrow" style="margin-left: 50px;">↓</span>
+                    <div class="flow-box" style="width: 100%;">2️⃣ Collect Name</div>
+                    <span class="flow-arrow" style="margin-left: 50px;">↓</span>
+                    <div class="flow-box" style="width: 100%;">3️⃣ Collect Email (validated)</div>
+                    <span class="flow-arrow" style="margin-left: 50px;">↓</span>
+                    <div class="flow-box" style="width: 100%;">4️⃣ Collect Phone</div>
+                    <span class="flow-arrow" style="margin-left: 50px;">↓</span>
+                    <div class="flow-box" style="width: 100%;">5️⃣ Select Appointment Type</div>
+                    <span class="flow-arrow" style="margin-left: 50px;">↓</span>
+                    <div class="flow-box" style="width: 100%;">6️⃣ Choose Date & Time</div>
+                </div>
+            </div>
+            <div>
+                <h3>Confirmation & Save</h3>
+                <div class="flow-diagram" style="flex-direction: column; align-items: flex-start;">
+                    <div class="flow-box" style="width: 100%;">7️⃣ Display Summary</div>
+                    <span class="flow-arrow" style="margin-left: 50px;">↓</span>
+                    <div class="flow-box" style="width: 100%;">8️⃣ Ask for Confirmation</div>
+                    <span class="flow-arrow" style="margin-left: 50px;">↓</span>
+                    <div class="flow-box" style="width: 100%;">9️⃣ Save to Database</div>
+                    <span class="flow-arrow" style="margin-left: 50px;">↓</span>
+                    <div class="flow-box" style="width: 100%;">🔟 Send Email Confirmation</div>
+                    <span class="flow-arrow" style="margin-left: 50px;">↓</span>
+                    <div class="flow-box" style="width: 100%; background: linear-gradient(135deg, #4ade80, #22c55e);">✅ Return Booking ID</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top: 30px;">
+            <h3>Key Features</h3>
+            <ul style="display: flex; flex-wrap: wrap; gap: 20px;">
+                <li>✅ Field validation (email, date, time formats)</li>
+                <li>✅ One field at a time for clarity</li>
+                <li>✅ Explicit confirmation required</li>
+                <li>✅ Graceful error handling</li>
+            </ul>
+        </div>
+        <span class="slide-number">5 / 11</span>
+    </section>
+
+    <!-- Slide 6: RAG Design -->
+    <section class="slide" id="slide-5">
+        <h2>📚 RAG Pipeline Design</h2>
+        
+        <div class="architecture-box">
+            <div class="flow-diagram">
+                <div class="flow-box">
+                    <strong>📄 PDF Upload</strong><br>
+                    <small>Multiple files</small>
+                </div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-box">
+                    <strong>📝 Text Extraction</strong><br>
+                    <small>PyPDFLoader</small>
+                </div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-box">
+                    <strong>✂️ Chunking</strong><br>
+                    <small>800 chars, 100 overlap</small>
+                </div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-box">
+                    <strong>🔢 Embedding</strong><br>
+                    <small>text-embedding-3-small</small>
+                </div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-box">
+                    <strong>🗃️ FAISS Store</strong><br>
+                    <small>Vector DB</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="two-col">
+            <div class="card">
+                <h3>📥 Ingestion Process</h3>
+                <div class="code-block">
+1. User uploads PDF(s) via UI<br>
+2. PyPDFLoader extracts text<br>
+3. RecursiveCharacterTextSplitter chunks<br>
+   - chunk_size: 800<br>
+   - chunk_overlap: 100<br>
+4. OpenAI embeddings generated<br>
+5. FAISS vector store created
+                </div>
+            </div>
+            <div class="card">
+                <h3>🔍 Query Process</h3>
+                <div class="code-block">
+1. User asks question<br>
+2. Query embedded<br>
+3. Similarity search (k=3)<br>
+4. Context injected into prompt<br>
+5. LLM generates answer<br>
+6. Response returned to user
+                </div>
+            </div>
+        </div>
+        <span class="slide-number">6 / 11</span>
+    </section>
+
+    <!-- Slide 7: Database Schema -->
+    <section class="slide" id="slide-6">
+        <h2>🗄️ Database Schema</h2>
+        
+        <div class="two-col">
+            <div class="card">
+                <h3>👥 customers</h3>
+                <div class="table-container">
+                    <table>
+                        <tr><th>Column</th><th>Type</th><th>Constraint</th></tr>
+                        <tr><td>customer_id</td><td>INTEGER</td><td>PRIMARY KEY</td></tr>
+                        <tr><td>name</td><td>TEXT</td><td>NOT NULL</td></tr>
+                        <tr><td>email</td><td>TEXT</td><td>NOT NULL</td></tr>
+                        <tr><td>phone</td><td>TEXT</td><td>NOT NULL</td></tr>
+                    </table>
+                </div>
+            </div>
+            <div class="card">
+                <h3>📅 bookings</h3>
+                <div class="table-container">
+                    <table>
+                        <tr><th>Column</th><th>Type</th><th>Constraint</th></tr>
+                        <tr><td>id</td><td>INTEGER</td><td>PRIMARY KEY</td></tr>
+                        <tr><td>customer_id</td><td>INTEGER</td><td>FOREIGN KEY</td></tr>
+                        <tr><td>booking_type</td><td>TEXT</td><td>NOT NULL</td></tr>
+                        <tr><td>date</td><td>TEXT</td><td>NOT NULL</td></tr>
+                        <tr><td>time</td><td>TEXT</td><td>NOT NULL</td></tr>
+                        <tr><td>status</td><td>TEXT</td><td>NOT NULL</td></tr>
+                        <tr><td>created_at</td><td>TIMESTAMP</td><td>DEFAULT NOW</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top: 30px;">
+            <h3>🔗 Relationships & Operations</h3>
+            <ul>
+                <li><span class="highlight">One-to-Many:</span> One customer can have multiple bookings</li>
+                <li><span class="highlight">Status Values:</span> CONFIRMED, COMPLETED, CANCELLED</li>
+                <li><span class="highlight">Admin Operations:</span> View, Filter, Update Status, Delete, Export CSV</li>
+            </ul>
+        </div>
+        <span class="slide-number">7 / 11</span>
+    </section>
+
+    <!-- Slide 8: Admin Dashboard -->
+    <section class="slide" id="slide-7">
+        <h2>📋 Admin Dashboard</h2>
+        
+        <div class="grid">
+            <div class="card">
+                <h3>📊 Overview Metrics</h3>
+                <ul>
+                    <li>Total Bookings Count</li>
+                    <li>Confirmed Bookings</li>
+                    <li>Cancelled Bookings</li>
+                    <li>Completed Bookings</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>🔍 Filter Options</h3>
+                <ul>
+                    <li>Search by Name</li>
+                    <li>Search by Email</li>
+                    <li>Filter by Date</li>
+                    <li>Filter by Status</li>
+                    <li>Filter by Appointment Type</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>⚙️ Management Actions</h3>
+                <ul>
+                    <li>Update Booking Status</li>
+                    <li>Delete Bookings</li>
+                    <li>View Full Details</li>
+                    <li>Real-time Refresh</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>📤 Export Features</h3>
+                <ul>
+                    <li>Download as CSV</li>
+                    <li>Filtered Export</li>
+                    <li>All Columns Included</li>
+                    <li>One-Click Download</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="screenshot-placeholder" style="margin-top: 30px;">
+            <p>📸 Admin Dashboard Screenshot</p>
+            <p><small>Interactive table with filters, metrics, and management options</small></p>
+        </div>
+        <span class="slide-number">8 / 11</span>
+    </section>
+
+    <!-- Slide 9: Features Checklist -->
+    <section class="slide" id="slide-8">
+        <h2>✅ Requirements Compliance</h2>
+        
+        <div class="table-container">
+            <table>
+                <tr>
+                    <th>Requirement</th>
+                    <th>Status</th>
+                    <th>Implementation</th>
+                </tr>
+                <tr>
+                    <td>RAG with PDF Upload</td>
+                    <td class="status-done">✅ Done</td>
+                    <td>PyPDFLoader + FAISS + OpenAI Embeddings</td>
+                </tr>
+                <tr>
+                    <td>Multi-turn Booking Flow</td>
+                    <td class="status-done">✅ Done</td>
+                    <td>BookingFlow class with state management</td>
+                </tr>
+                <tr>
+                    <td>Field Validation</td>
+                    <td class="status-done">✅ Done</td>
+                    <td>Email, Date, Time, Phone validation</td>
+                </tr>
+                <tr>
+                    <td>Short-term Memory (25 msgs)</td>
+                    <td class="status-done">✅ Done</td>
+                    <td>trim_memory() with MEMORY_LIMIT=25</td>
+                </tr>
+                <tr>
+                    <td>Confirmation Before Save</td>
+                    <td class="status-done">✅ Done</td>
+                    <td>Summary + explicit "yes" confirmation</td>
+                </tr>
+                <tr>
+                    <td>SQLite Database</td>
+                    <td class="status-done">✅ Done</td>
+                    <td>customers + bookings tables</td>
+                </tr>
+                <tr>
+                    <td>Email Confirmation</td>
+                    <td class="status-done">✅ Done</td>
+                    <td>SMTP with HTML template</td>
+                </tr>
+                <tr>
+                    <td>Admin Dashboard</td>
+                    <td class="status-done">✅ Done</td>
+                    <td>Filters, CRUD, Export CSV</td>
+                </tr>
+                <tr>
+                    <td>Error Handling</td>
+                    <td class="status-done">✅ Done</td>
+                    <td>Graceful failures with friendly messages</td>
+                </tr>
+                <tr>
+                    <td>Streamlit Cloud Deployment</td>
+                    <td class="status-done">✅ Done</td>
+                    <td>Public URL available</td>
+                </tr>
+            </table>
+        </div>
+        <span class="slide-number">9 / 11</span>
+    </section>
+
+    <!-- Slide 10: Challenges & Improvements -->
+    <section class="slide" id="slide-9">
+        <h2>🎯 Challenges & Future Improvements</h2>
+        
+        <div class="two-col">
+            <div class="card">
+                <h3>⚠️ Challenges Faced</h3>
+                <ul>
+                    <li><span class="highlight">LangChain Version:</span> Import paths changed in newer versions - fixed with langchain-text-splitters</li>
+                    <li><span class="highlight">Secret Management:</span> GitHub push protection blocked API keys - used .gitignore</li>
+                    <li><span class="highlight">State Management:</span> Streamlit reruns on each interaction - used session_state</li>
+                    <li><span class="highlight">SQLite Persistence:</span> Resets on Streamlit Cloud restart - acceptable for demo</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>🚀 Future Improvements</h3>
+                <ul>
+                    <li><span class="highlight">Supabase:</span> Replace SQLite for persistent storage</li>
+                    <li><span class="highlight">Voice Input:</span> Add STT for accessibility</li>
+                    <li><span class="highlight">Calendar Integration:</span> Google Calendar sync</li>
+                    <li><span class="highlight">SMS Notifications:</span> Twilio integration</li>
+                    <li><span class="highlight">Multi-language:</span> i18n support</li>
+                    <li><span class="highlight">Analytics:</span> Booking trends dashboard</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top: 30px;">
+            <h3>💡 Lessons Learned</h3>
+            <ul style="display: flex; flex-wrap: wrap; gap: 20px;">
+                <li>Always pin dependency versions</li>
+                <li>Use secrets management from start</li>
+                <li>Test on cloud early and often</li>
+                <li>Modular design enables faster debugging</li>
+            </ul>
+        </div>
+        <span class="slide-number">10 / 11</span>
+    </section>
+
+    <!-- Slide 11: Thank You -->
+    <section class="slide title-slide" id="slide-10">
+        <div class="emoji">🙏</div>
+        <h1>Thank You!</h1>
+        <p class="subtitle">AI Booking Assistant - HealthCare Plus</p>
+        
+        <div style="margin-top: 60px;">
+            <div class="tech-stack" style="justify-content: center;">
+                <span class="tech-badge">📂 GitHub Repository</span>
+                <span class="tech-badge">🌐 Live Demo on Streamlit</span>
+                <span class="tech-badge">📄 Documentation</span>
+            </div>
+        </div>
+        
+        <p style="margin-top: 40px; color: #666;">
+            <a href="https://github.com/Nagur-Meera/AI_BookingAssistant" style="color: #e94560;">
+                github.com/Nagur-Meera/AI_BookingAssistant
+            </a>
+        </p>
+        <span class="slide-number">11 / 11</span>
+    </section>
+
+    <script>
+        // Smooth scroll to slide
+        function scrollToSlide(index) {
+            const slide = document.getElementById(`slide-${index}`);
+            if (slide) {
+                slide.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+        
+        // Update active dot on scroll
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.nav-dot');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const index = Array.from(slides).indexOf(entry.target);
+                    dots.forEach((dot, i) => {
+                        dot.classList.toggle('active', i === index);
+                    });
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        slides.forEach(slide => observer.observe(slide));
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            const currentSlide = Array.from(slides).findIndex(slide => {
+                const rect = slide.getBoundingClientRect();
+                return rect.top >= 0 && rect.top < window.innerHeight / 2;
+            });
+            
+            if (e.key === 'ArrowDown' || e.key === ' ') {
+                e.preventDefault();
+                if (currentSlide < slides.length - 1) {
+                    scrollToSlide(currentSlide + 1);
+                }
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                if (currentSlide > 0) {
+                    scrollToSlide(currentSlide - 1);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
