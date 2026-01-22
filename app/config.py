@@ -11,8 +11,8 @@ def get_secret(key, default=None):
 # OpenAI Configuration
 OPENAI_API_KEY = get_secret("OPENAI_API_KEY")
 
-# Model Configuration
-CHAT_MODEL = "gpt-4o-mini"  # Cost-effective and capable
+# Model Configuration - Using gpt-4.1-mini for better rate limits and cost efficiency
+CHAT_MODEL = "gpt-4.1-mini"  # 200K TPM, cost-effective
 EMBED_MODEL = "text-embedding-3-small"
 
 # Memory Configuration
