@@ -8,11 +8,21 @@ def get_secret(key, default=None):
     except:
         return os.getenv(key, default)
 
-# OpenAI Configuration
+# API Configuration - Supports both OpenAI and Groq
 OPENAI_API_KEY = get_secret("OPENAI_API_KEY")
+GROQ_API_KEY = get_secret("GROQ_API_KEY")
 
-# Model Configuration - Using gpt-4.1-mini for better rate limits and cost efficiency
-CHAT_MODEL = "gpt-4.1-mini"  # 200K TPM, cost-effective
+# Model Configuration
+# If Groq key is available, use Groq (FREE!), otherwise use OpenAI
+USE_GROQ = bool(GROQ_API_KEY)
+
+# Groq Models (FREE): llama-3.3-70b-versatile, llama-3.1-8b-instant, mixtral-8x7b-32768
+GROQ_MODEL = "llama-3.3-70b-versatile"  # Best free model
+
+# OpenAI Models (Paid): gpt-4.1-mini, gpt-4o-mini, gpt-4o
+OPENAI_MODEL = "gpt-4.1-mini"
+
+CHAT_MODEL = GROQ_MODEL if USE_GROQ else OPENAI_MODEL
 EMBED_MODEL = "text-embedding-3-small"
 
 # Memory Configuration

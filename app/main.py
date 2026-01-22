@@ -1,6 +1,7 @@
 """
 AI Booking Assistant - Main Streamlit Application
 A medical clinic booking assistant with RAG capabilities
+Supports both OpenAI and Groq (FREE) as LLM providers
 """
 import os
 import sys
@@ -12,7 +13,10 @@ import streamlit as st
 from openai import OpenAI
 from db.models import create_tables
 from app.admin_dashboard import admin_ui
-from app.config import OPENAI_API_KEY, CHAT_MODEL, SYSTEM_PROMPT, MEMORY_LIMIT
+from app.config import (
+    OPENAI_API_KEY, GROQ_API_KEY, USE_GROQ, 
+    CHAT_MODEL, SYSTEM_PROMPT, MEMORY_LIMIT
+)
 from app.chat_logic import is_booking_intent, trim_memory
 from app.booking_flow import BookingFlow
 from app.rag_pipeline import ingest_pdfs, rag_query, create_rag_prompt
@@ -39,14 +43,20 @@ if "vectorstore" not in st.session_state:
 if "pdf_processed" not in st.session_state:
     st.session_state.pdf_processed = False
 
-def get_openai_client():
-    """Get OpenAI client"""
-    if not OPENAI_API_KEY:
-        return None
-    return OpenAI(api_key=OPENAI_API_KEY)
+def get_llm_client():
+    """Get LLM client - Groq (FREE) or OpenAI"""
+    if USE_GROQ and GROQ_API_KEY:
+        # Use Groq (FREE!) with OpenAI-compatible API
+        return OpenAI(
+            api_key=GROQ_API_KEY,
+            base_url="https://api.groq.com/openai/v1"
+        ), "Groq"
+    elif OPENAI_API_KEY:
+        return OpenAI(api_key=OPENAI_API_KEY), "OpenAI"
+    return None, None
 
 def get_chat_response(client, messages, user_input, vectorstore=None):
-    """Get response from OpenAI with optional RAG context"""
+    """Get response from LLM with optional RAG context"""
     try:
         # Build message history
         chat_messages = [{"role": "system", "content": SYSTEM_PROMPT}]
@@ -83,12 +93,25 @@ def chat_interface():
     st.title("🏥 HealthCare Plus - AI Booking Assistant")
     st.markdown("Welcome! I can help you book appointments and answer questions about our clinic.")
     
-    # Check API key
-    client = get_openai_client()
+    # Check API key and get client
+    client, provider = get_llm_client()
     if not client:
-        st.error("⚠️ OpenAI API key not configured. Please add your API key to `.streamlit/secrets.toml`")
-        st.code('OPENAI_API_KEY = "your-api-key-here"', language="toml")
+        st.error("⚠️ No API key configured. Please add your API key to Streamlit secrets.")
+        st.markdown("""
+        **Option 1: Groq (FREE!)** - Get key at https://console.groq.com/keys
+        ```toml
+        GROQ_API_KEY = "gsk_your-groq-key-here"
+        ```
+        
+        **Option 2: OpenAI (Paid)** - Get key at https://platform.openai.com/api-keys
+        ```toml
+        OPENAI_API_KEY = "sk-your-openai-key-here"
+        ```
+        """)
         return
+    
+    # Show which provider is being used
+    st.sidebar.success(f"🤖 Using: **{provider}** ({CHAT_MODEL})")
     
     # Initialize booking flow
     booking_flow = BookingFlow(st.session_state)
