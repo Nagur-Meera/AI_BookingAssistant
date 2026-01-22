@@ -1,0 +1,7 @@
+import os
+
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+
+CHAT_MODEL = "gpt-4.1-mini"     # cheap
+EMBED_MODEL = "text-embedding-3-small"
+MEMORY_LIMIT = 25
